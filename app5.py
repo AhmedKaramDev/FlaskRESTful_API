@@ -1,0 +1,38 @@
+from flask import Flask  # for web
+from flask_restful import Api  # for APIs
+from flask_jwt import JWT  # for auth and access token
+from secuirty5 import authenticate, identity
+from resources.user5 import UserRegister  # for register
+from resources.item import Item, ItemList
+from resources.store import Store, StoreList
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # dont track every change happen it take resources
+app.secret_key = 'ahmed' # for encryption
+api = Api(app)
+@app.before_first_request
+def create_table():
+    db.create_all()
+jwt = JWT(app, authenticate, identity)
+
+
+
+
+
+#routing
+
+api.add_resource(Store, '/store/<string:name>')
+api.add_resource(Item, '/item/<string:name>')
+api.add_resource(ItemList, '/items')
+api.add_resource(StoreList, '/stores')
+api.add_resource(UserRegister, '/register')
+
+
+if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
+    app.run(debug=True)
+
+
+
