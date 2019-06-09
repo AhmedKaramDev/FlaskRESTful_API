@@ -11,9 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # dont track every change happen it take resources
 app.secret_key = 'ahmed' # for encryption
 api = Api(app)
-@app.before_first_request
-def create_table():
-    db.create_all()
+
+
 jwt = JWT(app, authenticate, identity)
 
 
